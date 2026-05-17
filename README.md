@@ -15,9 +15,9 @@ StrikeShop is a scalable, production-ready monorepo platform for e-commerce, eve
 
 ## UI/UX Design (Figma)
 
-- [Figma Designs (User & Admin Pages)](https://www.figma.com/design/aR4notbkqakK07WJhHDoUs/Untitled?node-id=0-1&p=f&t=ZTUwArNocThoRuZU-0)
+- [Figma Designs (User)](https://www.figma.com/design/aR4notbkqakK07WJhHDoUs/Untitled?node-id=0-1&p=f&t=ZTUwArNocThoRuZU-0)
 
-The link includes layouts for user-facing and admin pages, showcasing the visual style and UX approach of the platform.
+The link includes layouts for user-facing, showcasing the visual style and UX approach of the platform.
 
 ---
 
