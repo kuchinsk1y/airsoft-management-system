@@ -1,0 +1,9 @@
+<h2>{{subject}}</h2>
+<p>Нова подія "{{eventName}}" очікує підтвердження.</p>
+<p>Організатор: {{organizerName}}</p>
+{{#if gameStartDate}}
+  <p>Дата старту: {{gameStartDate}}</p>
+{{/if}}
+{{#if adminUrl}}
+  <p><a href='{{adminUrl}}'>Відкрити модерацію</a></p>
+{{/if}}

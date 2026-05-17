@@ -1,0 +1,6 @@
+export { default as DashboardHeader } from './DashboardHeader'
+export { default as StatsCards } from './StatsCards'
+export { default as ChartsSection } from './ChartsSection'
+export { default as EventsSection } from './EventsSection'
+export type { StatCardData } from './StatsCards'
+export type { EventData } from './EventsSection'

@@ -1,0 +1,43 @@
+0 info it worked if it ends with ok
+1 verbose cli [
+1 verbose cli   'D:\\PROGRAMMING\\NodejS\\node.exe',
+1 verbose cli   'D:\\PROGRAMMING\\Projects\\StrikeShop-main\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'run',
+1 verbose cli   'setup:db'
+1 verbose cli ]
+2 info using npm@2.15.12
+3 info using node@v22.13.1
+4 verbose run-script [ 'presetup:db', 'setup:db', 'postsetup:db' ]
+5 info presetup:db api@0.0.1
+6 info setup:db api@0.0.1
+7 verbose unsafe-perm in lifecycle true
+8 info api@0.0.1 Failed to exec setup:db script
+9 verbose stack Error: api@0.0.1 setup:db: `npm run prisma:prepare && npm run seed:admin && npm run seed:cities && npm run seed:products && npm run seed:events && npm run seed:template`
+9 verbose stack Exit status 1
+9 verbose stack     at EventEmitter.<anonymous> (D:\PROGRAMMING\Projects\StrikeShop-main\node_modules\npm\lib\utils\lifecycle.js:217:16)
+9 verbose stack     at EventEmitter.emit (node:events:524:28)
+9 verbose stack     at ChildProcess.<anonymous> (D:\PROGRAMMING\Projects\StrikeShop-main\node_modules\npm\lib\utils\spawn.js:24:14)
+9 verbose stack     at ChildProcess.emit (node:events:524:28)
+9 verbose stack     at maybeClose (node:internal/child_process:1101:16)
+9 verbose stack     at ChildProcess._handle.onexit (node:internal/child_process:304:5)
+10 verbose pkgid api@0.0.1
+11 verbose cwd D:\PROGRAMMING\Projects\StrikeShop-main\apps\api
+12 error Windows_NT 10.0.19045
+13 error argv "D:\\PROGRAMMING\\NodejS\\node.exe" "D:\\PROGRAMMING\\Projects\\StrikeShop-main\\node_modules\\npm\\bin\\npm-cli.js" "run" "setup:db"
+14 error node v22.13.1
+15 error npm  v2.15.12
+16 error code ELIFECYCLE
+17 error api@0.0.1 setup:db: `npm run prisma:prepare && npm run seed:admin && npm run seed:cities && npm run seed:products && npm run seed:events && npm run seed:template`
+17 error Exit status 1
+18 error Failed at the api@0.0.1 setup:db script 'npm run prisma:prepare && npm run seed:admin && npm run seed:cities && npm run seed:products && npm run seed:events && npm run seed:template'.
+18 error This is most likely a problem with the api package,
+18 error not with npm itself.
+18 error Tell the author that this fails on your system:
+18 error     npm run prisma:prepare && npm run seed:admin && npm run seed:cities && npm run seed:products && npm run seed:events && npm run seed:template
+18 error You can get information on how to open an issue for this project with:
+18 error     npm bugs api
+18 error Or if that isn't available, you can get their info via:
+18 error
+18 error     npm owner ls api
+18 error There is likely additional logging output above.
+19 verbose exit [ 1, true ]

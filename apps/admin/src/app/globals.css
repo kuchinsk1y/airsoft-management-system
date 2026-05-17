@@ -1,0 +1,496 @@
+@import "tailwindcss";
+
+:root {
+	--color-primary: #ea580c;
+	--color-primary-hover: #c2410c;
+	--color-primary-light: rgba(234, 88, 12, 0.1);
+}
+
+.toast-base {
+	position: fixed;
+	top: 1.5rem;
+	left: 50%;
+	transform: translateX(-50%) translateY(-10px);
+	padding: 0.75rem 1.5rem;
+	border-radius: 0.75rem;
+	box-shadow: 0 8px 24px -4px rgba(0,0,0,0.4);
+	font-weight: 600;
+	color: #fff;
+	z-index: 50;
+	opacity: 0;
+	transition: opacity .25s ease, transform .25s ease;
+}
+
+.toast-show {
+	opacity: 1;
+	transform: translateX(-50%) translateY(0);
+}
+
+.toast-hide {
+	opacity: 0;
+	transform: translateX(-50%) translateY(-6px);
+}
+
+/* Select styling */
+select {
+	color-scheme: dark;
+}
+
+select option {
+	background-color: #1f2937;
+	color: #ffffff;
+	padding: 0.5rem;
+}
+
+select option:checked {
+	background: linear-gradient(#4b5563, #4b5563);
+	background-color: #ea580c !important;
+}
+/* Custom scrollbar */
+.custom-scrollbar {
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-primary) #1a1a1a;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+	width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+	background: #1a1a1a;
+	border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+	background: var(--color-primary);
+	border-radius: 10px;
+	transition: background 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+	background: var(--color-primary-hover);
+}
+
+.news-editor-shell .tox-tinymce {
+	border: 1px solid rgba(255, 255, 255, 0.08) !important;
+	border-radius: 0.75rem !important;
+	overflow: hidden;
+	background: rgba(255, 255, 255, 0.03) !important;
+	box-shadow: none !important;
+}
+
+.news-editor-shell .tox {
+	--tox-icon-color: #f3f4f6;
+	--tox-icon-color__disabled: rgba(243, 244, 246, 0.35);
+	--tox-icon-color__hover: #fff7ed;
+	--tox-icon-color__active: #fff7ed;
+	--tox-collection-item-label-color: #f3f4f6;
+	--tox-collection-item-label-color-active: #fff7ed;
+	--tox-collection-item-label-color-hover: #fff7ed;
+	--tox-tbtn-text-color: #f3f4f6;
+	--tox-tbtn-text-color-active: #fff7ed;
+	--tox-tbtn-text-color-hover: #fff7ed;
+	--tox-tbtn--enabled-background: rgba(234, 88, 12, 0.16);
+	--tox-tbtn--enabled-border-color: rgba(251, 146, 60, 0.35);
+	--tox-tbtn--active-background: rgba(234, 88, 12, 0.16);
+	--tox-tbtn--active-border-color: rgba(251, 146, 60, 0.35);
+	--tox-split-button-chevron-color: #f3f4f6;
+	--tox-split-button-chevron-color-active: #fff7ed;
+	--tox-split-button-chevron-color-hover: #fff7ed;
+}
+
+.news-editor-shell .tox .tox-toolbar,
+.news-editor-shell .tox .tox-toolbar__primary,
+.news-editor-shell .tox .tox-menubar,
+.news-editor-shell .tox .tox-statusbar,
+.news-editor-shell .tox .tox-edit-area__iframe {
+	background: #0f0f10 !important;
+}
+
+.news-editor-shell .tox .tox-toolbar-overlord,
+.news-editor-shell .tox .tox-statusbar {
+	border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.news-editor-shell .tox .tox-edit-area,
+.news-editor-shell .tox .tox-sidebar-wrap,
+.news-editor-shell .tox .tox-editor-header {
+	background: #0f0f10 !important;
+}
+
+.admin-signin-logo-drop {
+	transform-origin: top center;
+	animation: admin-signin-logo-drop 1.25s cubic-bezier(0.22, 1, 0.36, 1)
+		both;
+}
+
+@keyframes admin-signin-logo-drop {
+	0% {
+		opacity: 0;
+		transform: translateY(-18px) rotate(-7deg);
+	}
+	36% {
+		opacity: 1;
+		transform: translateY(0) rotate(9deg);
+	}
+	58% {
+		transform: rotate(-4deg);
+	}
+	76% {
+		transform: rotate(2.2deg);
+	}
+	100% {
+		transform: rotate(0deg);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.admin-signin-logo-drop {
+		animation: none !important;
+	}
+}
+
+.news-editor-shell .tox .tox-tbtn,
+.news-editor-shell .tox .tox-mbtn {
+	color: #f3f4f6 !important;
+	border-radius: 0.625rem !important;
+	background: rgba(255, 255, 255, 0.06) !important;
+	border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.news-editor-shell .tox .tox-mbtn--select,
+.news-editor-shell .tox .tox-tbtn--select,
+.news-editor-shell .tox .tox-tbtn--bespoke,
+.news-editor-shell .tox .tox-split-button,
+.news-editor-shell .tox .tox-split-button .tox-tbtn,
+.news-editor-shell .tox .tox-split-button .tox-tbtn--select {
+	background: rgba(255, 255, 255, 0.06) !important;
+	border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.news-editor-shell .tox .tox-tbtn svg,
+.news-editor-shell .tox .tox-mbtn svg {
+	fill: #f3f4f6 !important;
+}
+
+.news-editor-shell .tox .tox-icon svg,
+.news-editor-shell .tox .tox-tbtn__icon-wrap svg,
+.news-editor-shell .tox .tox-tbtn__select-chevron svg,
+.news-editor-shell .tox .tox-mbtn__select-chevron svg,
+.news-editor-shell .tox .tox-collection__item-caret svg,
+.news-editor-shell .tox .tox-listbox-chevron svg {
+	fill: #f3f4f6 !important;
+	color: #f3f4f6 !important;
+}
+
+.news-editor-shell .tox .tox-tbtn:hover svg,
+.news-editor-shell .tox .tox-mbtn:hover svg,
+.news-editor-shell .tox .tox-tbtn--enabled svg,
+.news-editor-shell .tox .tox-mbtn--active svg,
+.news-editor-shell .tox .tox-tbtn:focus svg,
+.news-editor-shell .tox .tox-mbtn:focus svg,
+.news-editor-shell .tox .tox-collection__item--enabled:hover svg,
+.news-editor-shell .tox .tox-collection__item--active svg {
+	fill: #fff7ed !important;
+	color: #fff7ed !important;
+}
+
+.news-editor-shell .tox .tox-mbtn__select-label,
+.news-editor-shell .tox .tox-listboxfield .tox-listbox__select-label,
+.news-editor-shell .tox .tox-listboxfield .tox-listbox--select,
+.news-editor-shell .tox .tox-collection__item-label {
+	color: #f3f4f6 !important;
+}
+
+.news-editor-shell .tox .tox-tbtn:hover .tox-mbtn__select-label,
+.news-editor-shell .tox .tox-mbtn:hover .tox-mbtn__select-label,
+.news-editor-shell .tox .tox-mbtn--active .tox-mbtn__select-label,
+.news-editor-shell .tox .tox-collection__item--enabled:hover .tox-collection__item-label,
+.news-editor-shell .tox .tox-collection__item--active .tox-collection__item-label {
+	color: #fff7ed !important;
+}
+
+.news-editor-shell .tox .tox-tbtn:focus,
+.news-editor-shell .tox .tox-mbtn:focus,
+.news-editor-shell .tox .tox-tbtn:focus-visible,
+.news-editor-shell .tox .tox-mbtn:focus-visible {
+	background: rgba(234, 88, 12, 0.16) !important;
+	box-shadow: inset 0 0 0 1px rgba(251, 146, 60, 0.4) !important;
+	outline: none !important;
+}
+
+.news-editor-shell .tox .tox-tbtn:hover,
+.news-editor-shell .tox .tox-mbtn:hover,
+.news-editor-shell .tox .tox-mbtn--active,
+.news-editor-shell .tox .tox-tbtn--enabled,
+.news-editor-shell .tox .tox-tbtn--enabled:hover {
+	background: rgba(234, 88, 12, 0.16) !important;
+	border-color: rgba(251, 146, 60, 0.35) !important;
+}
+
+.news-editor-shell .tox .tox-tbtn--enabled,
+.news-editor-shell .tox .tox-mbtn--active,
+.news-editor-shell .tox .tox-tbtn:hover,
+.news-editor-shell .tox .tox-mbtn:hover {
+	color: #fff7ed !important;
+}
+
+.news-editor-shell .tox .tox-tbtn--enabled,
+.news-editor-shell .tox .tox-mbtn--active {
+	box-shadow: inset 0 0 0 1px rgba(251, 146, 60, 0.35) !important;
+}
+
+.news-editor-shell .tox .tox-toolbar__group {
+	padding: 0 0.25rem !important;
+	border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.news-editor-shell .tox .tox-collection,
+.news-editor-shell .tox .tox-menu,
+.news-editor-shell .tox .tox-collection__group,
+.news-editor-shell .tox .tox-collection__item,
+.news-editor-shell .tox .tox-dialog,
+.news-editor-shell .tox .tox-dialog__header,
+.news-editor-shell .tox .tox-dialog__footer {
+	background: #111214 !important;
+	color: #f3f4f6 !important;
+	border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.news-editor-shell .tox .tox-collection__item {
+	border-radius: 0.5rem !important;
+}
+
+.news-editor-shell .tox .tox-collection__item--enabled:hover,
+.news-editor-shell .tox .tox-collection__item--active,
+.news-editor-shell .tox .tox-collection__item.tox-collection__item--active {
+	background: rgba(234, 88, 12, 0.16) !important;
+	color: #fff7ed !important;
+}
+
+.news-editor-shell .tox .tox-collection__item-label,
+.news-editor-shell .tox .tox-collection__item-accessory,
+.news-editor-shell .tox .tox-collection__item-icon {
+	color: inherit !important;
+	fill: currentColor !important;
+}
+
+.news-editor-shell .tox .tox-dialog-wrap__backdrop {
+	background: rgba(0, 0, 0, 0.68) !important;
+	-webkit-backdrop-filter: blur(3px);
+	backdrop-filter: blur(3px);
+}
+
+.news-editor-shell .tox .tox-label,
+.news-editor-shell .tox .tox-dialog__title,
+.news-editor-shell .tox .tox-dialog__body-content,
+.news-editor-shell .tox .tox-textarea,
+.news-editor-shell .tox .tox-textfield,
+.news-editor-shell .tox .tox-listboxfield .tox-listbox--select,
+.news-editor-shell .tox .tox-listboxfield .tox-listbox__select-label {
+	color: #f3f4f6 !important;
+}
+
+.news-editor-shell .tox .tox-textfield,
+.news-editor-shell .tox .tox-textarea,
+.news-editor-shell .tox .tox-listboxfield .tox-listbox--select {
+	background: #0b0c0e !important;
+	border-color: rgba(255, 255, 255, 0.12) !important;
+	box-shadow: none !important;
+}
+
+.news-editor-shell .tox .tox-textfield:focus,
+.news-editor-shell .tox .tox-textarea:focus,
+.news-editor-shell .tox .tox-listboxfield .tox-listbox--select:focus {
+	border-color: rgba(251, 146, 60, 0.7) !important;
+	box-shadow: 0 0 0 1px rgba(251, 146, 60, 0.25) !important;
+}
+
+.news-editor-shell .tox .tox-button {
+	background: var(--color-primary) !important;
+	border-color: transparent !important;
+	box-shadow: none !important;
+	color: #fff !important;
+}
+
+.news-editor-shell .tox .tox-button:hover,
+.news-editor-shell .tox .tox-button:focus-visible {
+	background: var(--color-primary-hover) !important;
+}
+
+.news-editor-shell .tox .tox-button--secondary,
+.news-editor-shell .tox .tox-button.tox-button--secondary {
+	background: rgba(255, 255, 255, 0.05) !important;
+	border-color: rgba(255, 255, 255, 0.1) !important;
+	color: #f3f4f6 !important;
+}
+
+.news-editor-shell .tox .tox-button--secondary:hover,
+.news-editor-shell .tox .tox-button.tox-button--secondary:hover {
+	background: rgba(255, 255, 255, 0.09) !important;
+}
+
+.news-editor-shell .tox .tox-checkbox__icons {
+	color: #fb923c !important;
+	fill: #fb923c !important;
+}
+
+.news-editor-shell .tox .tox-dialog__body-nav-item--active {
+	border-color: rgba(251, 146, 60, 0.7) !important;
+	color: #fff7ed !important;
+}
+
+.news-editor-shell .tox .tox-anchorbar {
+	background: #111214 !important;
+	border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.news-editor-shell .tox .tox-edit-area::before {
+	border-color: transparent !important;
+}
+
+.news-editor-shell .tox .tox-statusbar__branding {
+	display: none !important;
+}
+
+.news-editor-shell .tox .tox-promotion,
+.news-editor-shell .tox .tox-notification,
+.news-editor-shell .tox .tox-notifications-container {
+	display: none !important;
+}
+
+/* TinyMCE dialogs/popups are mounted outside .news-editor-shell */
+.tox-tinymce-aux,
+.tox-tinymce-aux .tox,
+.tox-silver-sink,
+.tox-silver-sink .tox {
+	--tox-icon-color: #f3f4f6;
+	--tox-icon-color__disabled: rgba(243, 244, 246, 0.35);
+	--tox-icon-color__hover: #fff7ed;
+	--tox-icon-color__active: #fff7ed;
+	--tox-collection-item-label-color: #f3f4f6;
+	--tox-collection-item-label-color-active: #fff7ed;
+	--tox-collection-item-label-color-hover: #fff7ed;
+	--tox-tbtn-text-color: #f3f4f6;
+	--tox-tbtn-text-color-active: #fff7ed;
+	--tox-tbtn-text-color-hover: #fff7ed;
+	--tox-tbtn--enabled-background: rgba(234, 88, 12, 0.16);
+	--tox-tbtn--enabled-border-color: rgba(251, 146, 60, 0.35);
+	--tox-tbtn--active-background: rgba(234, 88, 12, 0.16);
+	--tox-tbtn--active-border-color: rgba(251, 146, 60, 0.35);
+}
+
+.tox-tinymce-aux .tox-menu,
+.tox-tinymce-aux .tox-collection,
+.tox-tinymce-aux .tox-collection__group,
+.tox-tinymce-aux .tox-collection__item,
+.tox-tinymce-aux .tox-dialog,
+.tox-tinymce-aux .tox-dialog__header,
+.tox-tinymce-aux .tox-dialog__footer,
+.tox-tinymce-aux .tox-anchorbar {
+	background: #111214 !important;
+	color: #f3f4f6 !important;
+	border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.tox-tinymce-aux .tox-collection__item {
+	border-radius: 0.5rem !important;
+}
+
+.tox-tinymce-aux .tox-collection__item--enabled:hover,
+.tox-tinymce-aux .tox-collection__item--active,
+.tox-tinymce-aux .tox-collection__item.tox-collection__item--active {
+	background: rgba(234, 88, 12, 0.16) !important;
+	color: #fff7ed !important;
+}
+
+.tox-tinymce-aux .tox-label,
+.tox-tinymce-aux .tox-dialog__title,
+.tox-tinymce-aux .tox-dialog__body-content,
+.tox-tinymce-aux .tox-textarea,
+.tox-tinymce-aux .tox-textfield,
+.tox-tinymce-aux .tox-listboxfield .tox-listbox--select,
+.tox-tinymce-aux .tox-listboxfield .tox-listbox__select-label {
+	color: #f3f4f6 !important;
+}
+
+.tox-tinymce-aux .tox-textfield,
+.tox-tinymce-aux .tox-textarea,
+.tox-tinymce-aux .tox-listboxfield .tox-listbox--select {
+	background: #0b0c0e !important;
+	border-color: rgba(255, 255, 255, 0.12) !important;
+	box-shadow: none !important;
+}
+
+.tox-tinymce-aux .tox-textfield:focus,
+.tox-tinymce-aux .tox-textarea:focus,
+.tox-tinymce-aux .tox-listboxfield .tox-listbox--select:focus {
+	border-color: rgba(251, 146, 60, 0.7) !important;
+	box-shadow: 0 0 0 1px rgba(251, 146, 60, 0.25) !important;
+}
+
+.tox-tinymce-aux .tox-button {
+	background: var(--color-primary) !important;
+	border-color: transparent !important;
+	box-shadow: none !important;
+	color: #fff !important;
+}
+
+.tox-tinymce-aux .tox-button:hover,
+.tox-tinymce-aux .tox-button:focus-visible {
+	background: var(--color-primary-hover) !important;
+}
+
+.tox-tinymce-aux .tox-button--secondary,
+.tox-tinymce-aux .tox-button.tox-button--secondary {
+	background: rgba(255, 255, 255, 0.05) !important;
+	border-color: rgba(255, 255, 255, 0.1) !important;
+	color: #f3f4f6 !important;
+}
+
+.tox-tinymce-aux .tox-button--secondary:hover,
+.tox-tinymce-aux .tox-button.tox-button--secondary:hover {
+	background: rgba(255, 255, 255, 0.09) !important;
+}
+
+.tox-tinymce-aux .tox-dialog__body-nav-item--active {
+	border-color: rgba(251, 146, 60, 0.7) !important;
+	color: #fff7ed !important;
+}
+
+.tox-tinymce-aux .tox-dropzone-container {
+	display: flex !important;
+	flex: 1 !important;
+}
+
+.tox-tinymce-aux .tox-dropzone {
+	align-items: center !important;
+	background: #0b0c0e !important;
+	border: 1px dashed rgba(251, 146, 60, 0.45) !important;
+	border-radius: 0.75rem !important;
+	box-sizing: border-box !important;
+	display: flex !important;
+	flex-direction: column !important;
+	flex-grow: 1 !important;
+	justify-content: center !important;
+	min-height: 120px !important;
+	padding: 14px !important;
+	color: #f3f4f6 !important;
+}
+
+.tox-tinymce-aux .tox-dropzone p {
+	color: #d1d5db !important;
+	margin: 0 0 14px 0 !important;
+	text-align: center !important;
+}
+
+.tox-tinymce-aux .tox-dropzone-container.dragenter .tox-dropzone {
+	background: rgba(234, 88, 12, 0.14) !important;
+	border-color: rgba(251, 146, 60, 0.85) !important;
+}
+
+.tox-tinymce-aux .tox-dialog-wrap__backdrop {
+	background: rgba(0, 0, 0, 0.68) !important;
+	-webkit-backdrop-filter: blur(3px);
+	backdrop-filter: blur(3px);
+}

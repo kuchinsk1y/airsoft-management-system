@@ -1,0 +1,39 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: local-mongo
+    restart: unless-stopped
+    ports: ['27017:27017']
+    volumes: ['mongo_data:/data/db']
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'mongosh --eval "db.runCommand(\"ping\")" --quiet || exit 1',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres:
+    image: postgres:16
+    container_name: strikeshop-postgres
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: strikeshop
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  mongo_data:
+  postgres_data:

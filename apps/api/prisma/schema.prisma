@@ -1,0 +1,858 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma-client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum DealType {
+  RENT
+  SALE
+}
+
+enum TeamMemberStatus {
+  PENDING
+  ACTIVE
+  LEFT
+}
+
+enum TeamsJoinRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum TeamInvitationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
+
+enum TeamOwnershipTransferStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+
+enum EventRegistrationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+
+enum AclPermission {
+  read
+  write
+}
+
+enum Provider {
+  google
+  facebook
+}
+
+enum OrderStatus {
+  NEW
+  PENDING
+  PAID
+  PAYMENT_ON_SITE
+  PAYMENT_FAILED
+  CANCELLED
+}
+
+enum PaymentMethod {
+  BANK
+  CASH
+}
+
+enum CompetitionType {
+  TEAM
+  INDIVIDUAL
+  TRAINING
+}
+
+enum NotificationType {
+  TEAM_JOIN_REQUEST
+  TEAM_JOIN_REQUEST_APPROVED
+  TEAM_JOIN_REQUEST_REJECTED
+  TEAM_MEMBER_LEFT
+  TEAM_MEMBER_REMOVED
+  TEAM_DELETED
+  TEAM_INVITATION
+  TEAM_MODERATION
+  TRANSFER_OWNERSHIP
+  EVENT_REGISTRATION
+  EVENT_REMINDER
+  SYSTEM
+}
+
+enum CommentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum CommentScope {
+  EVENT
+  COMPANY
+}
+
+enum EventResultStatus {
+  PENDING
+  CONFIRMED
+  DISPUTED
+}
+
+enum EventPlacement {
+  FIRST
+  SECOND
+  THIRD
+  PARTICIPATED
+}
+
+enum RatingOutcome {
+  WIN
+  PARTICIPATED
+}
+
+enum RatingEntrySubjectType {
+  PLAYER
+  TEAM
+  ORGANIZER
+}
+
+enum NewsCategory {
+  AIRSOFT
+  STRIKESHOP
+}
+
+enum WorkshopItemCategory {
+  SERVICES
+  SUPPORT
+}
+
+enum ServiceOrderStatus {
+  NEW
+  PENDING
+  COMPLETED
+  REJECTED
+}
+
+enum EventStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  email       String    @unique
+  password    String?
+  fullName    String?
+  nickName    String    @unique
+  phoneNumber String?
+  dateOfBirth DateTime? @db.Date
+  country     String?
+  region      String?
+  city        String?
+  logoUrl     String?   @db.Text
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  isVerified  Boolean   @default(false)
+
+  accounts          OAuthAccount[]
+  orders            Order[]
+  teamMembers       TeamMember[]
+  teamJoinRequest TeamsJoinRequest[]
+  teamInvitations   TeamInvitation[] @relation("TeamInvitationInvitee")
+  sentTeamInvitations TeamInvitation[] @relation("TeamInvitationInviter")
+  teamOwnershipTransferRequestsToApprove TeamOwnershipTransferRequest[] @relation("TeamOwnershipTransferCurrentOwner")
+  teamOwnershipTransferRequestsToAccept  TeamOwnershipTransferRequest[] @relation("TeamOwnershipTransferNewOwner")
+  notifications     Notification[]
+  playerStats       PlayerStats?
+  eventRegistrations EventRegistration[]
+  eventResults      EventResult[]
+  confirmedResults  EventResult[] @relation("EventResultConfirmer")
+  acls              Acl[]
+  ownedApplication   Application? @relation("ApplicationOwner")
+  comments          Comment[] @relation("CommentAuthor")
+  moderatedComments Comment[] @relation("CommentModerator")
+  newsArticles      News[]    @relation("NewsAuthor")
+  updatedNews       News[]    @relation("NewsUpdatedBy")
+  workshopItems     WorkshopItem[] @relation("WorkshopItemAuthor")
+  updatedWorkshopItems WorkshopItem[] @relation("WorkshopItemUpdatedBy")
+  equipment         UserEquipment[]
+  organizerStats    OrganizerStats?
+  ratingEntries     RatingEntry[] @relation("RatingEntryUser")
+  ratingEntriesAsOrganizer RatingEntry[] @relation("RatingEntryOrganizer")
+
+  @@map("Users")
+}
+
+model OAuthAccount {
+  id         Int      @id @default(autoincrement())
+  provider   Provider
+  providerId String
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([provider, providerId])
+  @@unique([userId, provider])
+  @@index([userId])
+  @@map("OAuthAccounts")
+}
+
+model Region {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  slug      String   @unique
+  seoText   String?  @db.Text
+  seoFaq    Json?
+  createdAt DateTime @default(now())
+  cities    City[]
+
+  @@map("Regions")
+}
+
+model City {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  slug      String    @unique
+  regionId  Int
+  region    Region    @relation(fields: [regionId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+  seoText   String?   @db.Text
+  seoFaq    Json?
+  createdAt DateTime  @default(now())
+  events    Event[]
+  products  Product[]
+
+  @@index([regionId])
+  @@map("Cities")
+}
+
+model Product {
+  id          Int         @id @default(autoincrement())
+  name        String
+  slug        String      @unique
+  price       Int
+  createdAt   DateTime    @default(now())
+  description String      @db.Text
+  image       String      @db.Text
+  inStock     Boolean     @default(true)
+  isActive    Boolean     @default(true)
+  dealType    DealType    @default(RENT)
+  cityId      Int?
+  city        City?       @relation(fields: [cityId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  updatedAt   DateTime    @updatedAt
+  orderProducts  OrderProduct[]
+
+  @@index([cityId])
+  @@index([slug])
+  @@map("Products")
+}
+
+model Order {
+  id                 Int                 @id @default(autoincrement())
+  userId             Int
+  total              Decimal             @default(0) @db.Decimal(12, 2)
+  status             OrderStatus         @default(NEW)
+  paymentMethod      PaymentMethod?      @default(BANK)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  user               User                @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  products           OrderProduct[]
+  eventRegistrations EventRegistration[]
+
+  @@map("Orders")
+}
+
+model OrderProduct {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  qty       Int     @default(1)
+  price     Decimal @db.Decimal(10, 2)
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  product   Product @relation(fields: [productId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+
+  @@map("OrderProducts")
+}
+
+model Event {
+  id                     Int      @id @default(autoincrement())
+  name                   String
+  image                  String   @db.Text
+  startDate              DateTime
+  gameStartDate          DateTime
+  endDate                DateTime?
+  description            String?   @db.Text
+  cityId                 Int
+  city                   City     @relation(fields: [cityId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+  address                String
+  applicationId          Int
+  application            Application @relation(fields: [applicationId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  maxParticipants        Int      @default(0)
+  competitionType        CompetitionType
+  ratingGameTypeId       Int
+  ratingGameType         RatingGameType @relation(fields: [ratingGameTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  paymentMethods         PaymentMethod[] @default([BANK, CASH])
+  price                  Int      @default(0)
+  isActive               Boolean  @default(true)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+  status                 EventStatus @default(PENDING)
+  statusReason           String?     @db.Text
+
+  registrations          EventRegistration[]
+  gallery                EventGallery[]
+  comments               Comment[]
+  sides                  EventSide[]
+  results                EventResult[]
+  isCompleted            Boolean   @default(false)
+  completedAt            DateTime?
+  socialLinks            Json?
+  ratingConfig           EventRatingConfig?
+  ratingEntries          RatingEntry[]
+
+  @@index([startDate])
+  @@index([gameStartDate])
+  @@index([isActive])
+  @@index([competitionType])
+  @@index([ratingGameTypeId])
+  @@index([cityId])
+  @@index([applicationId])
+  @@index([status])
+  @@map("Events")
+}
+
+model EventSide {
+  id           Int    @id @default(autoincrement())
+  eventId      Int
+  name         String
+  orderIndex   Int    @default(0)
+  teamId       Int?
+  sideCapacity Int    @default(0)
+
+  event         Event               @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  team          Team?               @relation(fields: [teamId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  registrations EventRegistration[]
+  ratingOutcomes EventRatingOutcome[]
+
+  @@unique([eventId, orderIndex])
+  @@index([eventId])
+  @@index([teamId])
+  @@map("EventSides")
+}
+
+model EventGallery {
+  id        Int      @id @default(autoincrement())
+  eventId   Int
+  url       String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([eventId])
+  @@map("EventGallery")
+}
+
+model GalleryPhoto {
+  id        Int      @id @default(autoincrement())
+  url       String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([createdAt])
+  @@map("GalleryPhoto")
+}
+
+model Team {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  logoUrl     String?  @db.Text
+  description String?  @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  members               TeamMember[]
+  joinRequests          TeamsJoinRequest[]
+  invitations           TeamInvitation[]
+  ownershipTransferRequests TeamOwnershipTransferRequest[]
+  eventRegistrations    EventRegistration[]
+  eventSides            EventSide[]
+  stats                 TeamStats?
+  eventResults          EventResult[]
+  ratingOutcomes        EventRatingOutcome[]
+  ratingEntries         RatingEntry[]
+
+  @@map("Teams")
+}
+
+model TeamMember {
+  id               Int              @id @default(autoincrement())
+  teamId           Int
+  userId           Int
+  memberStatus     TeamMemberStatus @default(PENDING)
+  joinedAt         DateTime?
+  leftAt           DateTime?
+  teamContribution Int              @default(0)
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user User @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([teamId, userId])
+  @@index([teamId])
+  @@index([userId])
+  @@index([memberStatus])
+  @@index([leftAt])
+  @@map("TeamMembers")
+}
+
+model TeamsJoinRequest {
+  id         Int                    @id @default(autoincrement())
+  teamId     Int
+  userId     Int
+  status     TeamsJoinRequestStatus @default(PENDING)
+  createdAt  DateTime               @default(now())
+  reviewedAt DateTime?
+  reviewedBy Int?
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user User @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([teamId, userId])
+  @@index([teamId])
+  @@index([userId])
+  @@index([status])
+  @@map("TeamsJoinRequest")
+}
+
+model Notification {
+  id        Int              @id @default(autoincrement())
+  userId    Int
+  type      NotificationType
+  title     String
+  message   String           @db.Text
+  link      String?          @db.Text
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([userId])
+  @@index([isRead])
+  @@index([type])
+  @@map("Notifications")
+}
+
+model PlayerStats {
+  userId        Int      @id
+  gamesPlayed   Int      @default(0)
+  wins          Int      @default(0)
+  losses        Int      @default(0)
+  draws         Int      @default(0)
+  points        Int      @default(0)
+  totalPoints   Int      @default(0)
+  averagePoints Decimal? @db.Decimal(10, 2)
+  accuracy      Decimal? @db.Decimal(5, 2)
+  kdRatio       Decimal? @db.Decimal(5, 2)
+  winRate       Decimal? @db.Decimal(5, 2)
+  rank          Int?
+  previousRank  Int?
+  updatedAt     DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([points])
+  @@index([totalPoints])
+  @@index([rank])
+  @@index([winRate])
+  @@map("PlayerStats")
+}
+
+model EventRegistration {
+  id          Int                     @id @default(autoincrement())
+  eventId     Int
+  userId      Int
+  teamId      Int?
+  eventSideId Int?
+  orderId     Int?
+  status      EventRegistrationStatus @default(PENDING)
+  createdAt   DateTime                @default(now())
+  updatedAt   DateTime                @updatedAt
+
+  event     Event      @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user      User       @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  team      Team?      @relation(fields: [teamId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  eventSide EventSide? @relation(fields: [eventSideId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  order     Order?     @relation(fields: [orderId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@unique([eventId, userId])
+  @@index([eventId, status])
+  @@index([userId])
+  @@index([teamId])
+  @@index([eventSideId])
+  @@index([orderId])
+  @@map("EventRegistrations")
+}
+
+model Acl {
+  id            Int           @id @default(autoincrement())
+  userId        Int
+  permission    AclPermission
+  resource      String
+  applicationId Int?
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  application Application? @relation(fields: [applicationId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([userId, permission, resource, applicationId])
+  @@index([userId, resource])
+  @@index([applicationId])
+  @@map("Acls")
+}
+
+model TeamInvitation {
+  id          Int                  @id @default(autoincrement())
+  teamId      Int
+  inviterId   Int
+  inviteeId   Int
+  status      TeamInvitationStatus @default(PENDING)
+  createdAt   DateTime             @default(now())
+  respondedAt DateTime?
+  expiresAt   DateTime?
+
+  team    Team @relation(fields: [teamId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  inviter User @relation("TeamInvitationInviter", fields: [inviterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  invitee User @relation("TeamInvitationInvitee", fields: [inviteeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([teamId, inviteeId])
+  @@index([teamId])
+  @@index([inviteeId])
+  @@index([inviterId])
+  @@index([status])
+  @@index([expiresAt])
+  @@map("TeamInvitations")
+}
+
+model TeamOwnershipTransferRequest {
+  id             Int                         @id @default(autoincrement())
+  teamId         Int
+  currentOwnerId Int
+  newOwnerId     Int
+  status         TeamOwnershipTransferStatus @default(PENDING)
+  createdAt      DateTime                    @default(now())
+  respondedAt    DateTime?
+  expiresAt      DateTime?
+
+  team         Team @relation(fields: [teamId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  currentOwner User @relation("TeamOwnershipTransferCurrentOwner", fields: [currentOwnerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  newOwner     User @relation("TeamOwnershipTransferNewOwner", fields: [newOwnerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([teamId, newOwnerId])
+  @@index([teamId])
+  @@index([newOwnerId])
+  @@index([currentOwnerId])
+  @@index([status])
+  @@index([expiresAt])
+  @@map("TeamOwnershipTransferRequests")
+}
+
+model Application {
+  id          Int      @id @default(autoincrement())
+  uid         String   @unique
+  name        String
+  address     String?
+  phoneNumber String?
+  description String?  @db.Text
+  logoUrl     String?  @db.Text
+  ownerId     Int      @unique
+  owner       User     @relation("ApplicationOwner", fields: [ownerId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  events Event[]
+  acls   Acl[]
+
+  @@index([uid])
+  @@index([ownerId])
+  @@map("Applications")
+}
+
+model Comment {
+  id          Int           @id @default(autoincrement())
+  eventId     Int?
+  userId      Int
+  message     String        @db.Text
+  status      CommentStatus @default(PENDING)
+  scope       CommentScope  @default(EVENT)
+  createdAt   DateTime      @default(now())
+  moderatedAt DateTime?
+  moderatedBy Int?
+
+  author    User  @relation("CommentAuthor", fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  event     Event? @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  moderator User? @relation("CommentModerator", fields: [moderatedBy], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([eventId])
+  @@index([userId])
+  @@index([status])
+  @@index([scope])
+  @@index([createdAt])
+  @@map("Comments")
+}
+
+model EventResult {
+  id          Int               @id @default(autoincrement())
+  eventId     Int
+  userId      Int?
+  teamId      Int?
+  placement   EventPlacement
+  points      Int               @default(0)
+  kills       Int?              @default(0)
+  deaths      Int?              @default(0)
+  accuracy    Decimal?          @db.Decimal(5, 2)
+  status      EventResultStatus @default(PENDING)
+  confirmedAt DateTime?
+  confirmedBy Int?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  event     Event @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user      User? @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  team      Team? @relation(fields: [teamId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  confirmer User? @relation("EventResultConfirmer", fields: [confirmedBy], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([eventId])
+  @@index([userId])
+  @@index([teamId])
+  @@index([placement])
+  @@index([points])
+  @@index([status])
+  @@map("EventResults")
+}
+
+model RatingGameType {
+  id                           Int      @id @default(autoincrement())
+  name                         String   @unique
+  playerPoints                 Int      @default(0)
+  teamWinPoints                Int      @default(0)
+  teamParticipatedPoints       Int      @default(0)
+  organizerPointsPerParticipant Int     @default(0)
+  isActive                     Boolean  @default(true)
+  createdAt                    DateTime @default(now())
+  updatedAt                    DateTime @updatedAt
+
+  events       Event[]
+  eventRatings EventRatingConfig[]
+
+  @@index([isActive])
+  @@map("RatingGameTypes")
+}
+
+model EventRatingConfig {
+  id                 Int      @id @default(autoincrement())
+  eventId            Int      @unique
+  gameTypeId         Int
+  actualParticipants Int      @default(0)
+  isApplied          Boolean  @default(false)
+  appliedAt          DateTime?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  event     Event             @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  gameType  RatingGameType    @relation(fields: [gameTypeId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  outcomes  EventRatingOutcome[]
+
+  @@index([gameTypeId])
+  @@index([isApplied])
+  @@map("EventRatingConfigs")
+}
+
+model EventRatingOutcome {
+  id            Int           @id @default(autoincrement())
+  ratingConfigId Int
+  sideId        Int?
+  teamId        Int?
+  outcome       RatingOutcome
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  ratingConfig EventRatingConfig @relation(fields: [ratingConfigId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  side        EventSide?         @relation(fields: [sideId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  team        Team?              @relation(fields: [teamId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([ratingConfigId])
+  @@index([sideId])
+  @@index([teamId])
+  @@unique([ratingConfigId, sideId, teamId])
+  @@map("EventRatingOutcomes")
+}
+
+model RatingEntry {
+  id              Int                    @id @default(autoincrement())
+  eventId         Int
+  subjectType     RatingEntrySubjectType
+  userId          Int?
+  teamId          Int?
+  organizerUserId Int?
+  points          Int
+  gamesDelta      Int                    @default(0)
+  winsDelta       Int                    @default(0)
+  createdAt       DateTime               @default(now())
+
+  event       Event  @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user        User?  @relation("RatingEntryUser", fields: [userId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  team        Team?  @relation(fields: [teamId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+  organizer   User?  @relation("RatingEntryOrganizer", fields: [organizerUserId], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([eventId])
+  @@index([subjectType])
+  @@index([userId])
+  @@index([teamId])
+  @@index([organizerUserId])
+  @@map("RatingEntries")
+}
+
+model TeamStats {
+  teamId        Int      @id
+  gamesPlayed   Int      @default(0)
+  wins          Int      @default(0)
+  totalPoints   Int      @default(0)
+  averagePoints Decimal? @db.Decimal(10, 2)
+  winRate       Decimal? @db.Decimal(5, 2)
+  rank          Int?
+  updatedAt     DateTime @updatedAt
+
+  team Team @relation(fields: [teamId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([totalPoints])
+  @@index([rank])
+  @@index([winRate])
+  @@map("TeamStats")
+}
+
+model OrganizerStats {
+  userId          Int      @id
+  gamesOrganized  Int      @default(0)
+  totalPoints     Int      @default(0)
+  averagePoints   Decimal? @db.Decimal(10, 2)
+  rank            Int?
+  updatedAt       DateTime @updatedAt
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([totalPoints])
+  @@index([rank])
+  @@map("OrganizerStats")
+}
+
+model News {
+  id          Int          @id @default(autoincrement())
+  title       String
+  slug        String       @unique
+  excerpt     String       @db.Text
+  content     String       @db.Text
+  coverImage  String?      @db.Text
+  category    NewsCategory @default(AIRSOFT)
+  published   Boolean      @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  authorId    Int
+  updatedById Int?
+
+  author    User  @relation("NewsAuthor", fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  updatedBy User? @relation("NewsUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([slug])
+  @@index([published])
+  @@index([category])
+  @@index([published, category, publishedAt])
+  @@index([publishedAt])
+  @@index([authorId])
+  @@map("News")
+}
+
+model Service {
+  id          Int                @id @default(autoincrement())
+  name        String
+  phoneNumber String
+  email       String
+  message     String
+  topic       String
+  company     String?
+  status      ServiceOrderStatus @default(NEW)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  @@index([topic])
+  @@index([createdAt])
+  @@index([email])
+  @@index([phoneNumber])
+  @@map("Services")
+}
+
+model WorkshopItem {
+  id          Int                  @id @default(autoincrement())
+  title       String
+  slug        String               @unique
+  excerpt     String               @db.Text
+  content     String               @db.Text
+  coverImage  String?              @db.Text
+  category    WorkshopItemCategory @default(SERVICES)
+  published   Boolean              @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+  authorId    Int
+  updatedById Int?
+
+  author    User  @relation("WorkshopItemAuthor", fields: [authorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  updatedBy User? @relation("WorkshopItemUpdatedBy", fields: [updatedById], references: [id], onDelete: SetNull, onUpdate: NoAction)
+
+  @@index([slug])
+  @@index([published])
+  @@index([category])
+  @@index([published, category, publishedAt])
+  @@index([publishedAt])
+  @@index([authorId])
+  @@map("WorkshopItems")
+}
+
+model UserEquipment {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  slotKey   String   @db.VarChar(50)
+  value     String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([userId, slotKey])
+  @@index([userId])
+  @@map("UserEquipment")
+}
+
+model Organization {
+  id          Int      @id @default(1)
+  companyName String   @default("Strike Shop Action")
+  logoUrl     String?  @db.Text
+  websiteUrl  String?  @db.Text
+  phone       String?
+  registrationSmsEnabled Boolean @default(true)
+  socialLinks Json     @default("[]")
+  updatedAt   DateTime @updatedAt
+
+  @@map("Organizations")
+}

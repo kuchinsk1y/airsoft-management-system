@@ -1,0 +1,30 @@
+{
+  "name": "strikeshop",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "docker-compose up -d && npm run setup:db --workspace=api && concurrently -k \"npm run dev --workspace=api\" \"npm run dev --workspace=web\"  \"npm run dev --workspace=admin\" ",
+    "postinstall": "npm run prisma:generate --workspace=api",
+    "build": "npm run build --workspaces",
+    "lint": "npm run lint --workspaces",
+    "test": "npm run test --workspaces",
+    "seed:admin": "cd apps/api && npm run seed:admin",
+    "seed:template": "cd apps/api && npm run seed:template",
+    "seed:cities": "cd apps/api && npm run seed:cities",
+    "seed:products": "cd apps/api && npm run seed:products",
+    "seed:events": "cd apps/api && npm run seed:events",
+    "setup:db": "cd apps/api && npm run setup:db"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "prisma": "7.3.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@prisma/client": "7.3.0",
+    "lodash": "^4.17.23",
+    "sanitize-html": "^2.17.3"
+  }
+}

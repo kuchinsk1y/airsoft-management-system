@@ -1,0 +1,87 @@
+import sanitizeHtml from 'sanitize-html';
+
+export const RICH_CONTENT_ALLOWED_TAGS = [
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'blockquote',
+  'p',
+  'a',
+  'ul',
+  'ol',
+  'li',
+  'strong',
+  'em',
+  'i',
+  'u',
+  'b',
+  's',
+  'br',
+  'hr',
+  'table',
+  'thead',
+  'tbody',
+  'tfoot',
+  'tr',
+  'th',
+  'td',
+  'div',
+  'span',
+  'address',
+  'pre',
+  'code',
+  'img',
+  'caption',
+  'colgroup',
+  'col',
+];
+
+export const RICH_CONTENT_ALLOWED_ATTRIBUTES: sanitizeHtml.IOptions['allowedAttributes'] = {
+  a: ['href', 'name', 'target', 'rel', 'title', 'style'],
+  img: ['src', 'srcset', 'alt', 'title', 'width', 'height', 'loading', 'style'],
+  table: ['class', 'style', 'width', 'height', 'border', 'cellpadding', 'cellspacing'],
+  tr: ['class', 'style'],
+  td: ['colspan', 'rowspan', 'class', 'style', 'width', 'height'],
+  th: ['colspan', 'rowspan', 'scope', 'class', 'style', 'width', 'height'],
+  thead: ['class', 'style'],
+  tbody: ['class', 'style'],
+  tfoot: ['class', 'style'],
+  caption: ['class', 'style'],
+  colgroup: ['span', 'class', 'style', 'width'],
+  col: ['span', 'class', 'style', 'width'],
+  p: ['style'],
+  h1: ['style'],
+  h2: ['style'],
+  h3: ['style'],
+  h4: ['style'],
+  h5: ['style'],
+  h6: ['style'],
+  ul: ['style'],
+  ol: ['style'],
+  li: ['style'],
+  blockquote: ['style'],
+  div: ['style'],
+  span: ['style'],
+  pre: ['style'],
+  code: ['style'],
+};
+
+export const RICH_CONTENT_ALLOWED_STYLES: sanitizeHtml.IOptions['allowedStyles'] = {
+  '*': {
+    'text-decoration': [/^underline$/i, /^line-through$/i],
+    'font-weight': [/^(normal|bold|bolder|lighter|[1-9]00)$/i],
+    'font-style': [/^(normal|italic|oblique)$/i],
+    'text-align': [/^(left|right|center|justify)$/i],
+    'font-size': [/^\d+(?:\.\d+)?(px|em|rem|%)$/i],
+    'line-height': [/^\d+(?:\.\d+)?(?:px|em|rem|%)?$/i],
+  },
+};
+
+export const RICH_CONTENT_ALLOWED_SCHEMES = ['http', 'https', 'mailto', 'tel'];
+
+export const RICH_CONTENT_ALLOWED_SCHEMES_BY_TAG: sanitizeHtml.IOptions['allowedSchemesByTag'] = {
+  img: ['http', 'https', 'data'],
+};

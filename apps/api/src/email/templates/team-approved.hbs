@@ -1,0 +1,5 @@
+{{#if text}}
+{{> strike-email heading=subject bodyHtml=(concat "<p style=\"margin:0 0 16px;\">" text "</p>") ctaText="Переглянути команду" ctaUrl=notificationsLink}}
+{{else}}
+{{> strike-email heading=subject bodyHtml=(concat "<p style=\"margin:0 0 16px;\">Вітаємо! Ваш запит на приєднання до команди «" teamName "» схвалено.</p>") ctaText="Переглянути команду" ctaUrl=notificationsLink}}
+{{/if}}

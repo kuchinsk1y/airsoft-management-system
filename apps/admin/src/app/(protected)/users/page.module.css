@@ -1,0 +1,48 @@
+@keyframes usersTableIn {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes usersRowIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.tableEnter {
+  animation: usersTableIn 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.rowReveal {
+  opacity: 0;
+  animation: usersRowIn 300ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.cardReveal {
+  opacity: 0;
+  animation: usersRowIn 320ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tableEnter,
+  .rowReveal,
+  .cardReveal {
+    animation: none;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}

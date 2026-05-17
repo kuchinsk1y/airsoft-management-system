@@ -1,0 +1,35 @@
+@keyframes listContainerIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes rowFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.containerEnter {
+  animation: listContainerIn 220ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.rowReveal {
+  opacity: 0;
+  animation: rowFadeIn 240ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .containerEnter,
+  .rowReveal {
+    animation: none;
+    opacity: 1;
+  }
+}

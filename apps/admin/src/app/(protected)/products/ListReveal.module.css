@@ -1,0 +1,32 @@
+@keyframes listContainerIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes rowFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.containerEnter {
+  animation: listContainerIn 0.22s ease both;
+}
+
+.rowReveal {
+  opacity: 0;
+  animation: rowFadeIn 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.cardReveal {
+  opacity: 0;
+  animation: rowFadeIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .containerEnter,
+  .rowReveal,
+  .cardReveal {
+    animation: none;
+    opacity: 1;
+  }
+}

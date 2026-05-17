@@ -1,0 +1,27 @@
+.sliderTrack {
+  display: flex;
+  transition: transform 500ms ease-in-out;
+  gap: 0.75rem;
+  transform: translateX(var(--slider-translate, 0));
+}
+
+@media (min-width: 1440px) {
+  .sliderTrack {
+    gap: 1.25rem;
+  }
+}
+
+.slideItem {
+  flex-shrink: 0;
+  cursor: pointer;
+  position: relative;
+  width: var(--slide-width, 100%);
+}
+
+.slideImage {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  aspect-ratio: 4 / 3;
+}

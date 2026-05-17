@@ -1,0 +1,205 @@
+[
+  {
+    "type": "hero",
+    "image": "/uploads/hero-event.png"
+  },
+  {
+    "type": "partners",
+    "title": "Наші партнери",
+    "items": [
+      {
+        "id": 1,
+        "logo": "/uploads/Google_logo.svg",
+        "link": "https://www.google.com",
+        "alt": "Google"
+      },
+      {
+        "id": 2,
+        "logo": "/uploads/Amazon_logo.svg",
+        "link": "https://www.amazon.com",
+        "alt": "Amazon"
+      },
+      {
+        "id": 3,
+        "logo": "/uploads/Metabase_logo.svg",
+        "link": "https://www.metabase.com",
+        "alt": "Metabase"
+      },
+      {
+        "id": 4,
+        "logo": "/uploads/BBC_logo.svg",
+        "link": "https://www.bbc.com",
+        "alt": "BBC"
+      },
+      {
+        "id": 5,
+        "logo": "/uploads/Google_logo.svg",
+        "link": "https://www.google.com",
+        "alt": "Google"
+      },
+      {
+        "id": 6,
+        "logo": "/uploads/Amazon_logo.svg",
+        "link": "https://www.amazon.com",
+        "alt": "Amazon"
+      },
+      {
+        "id": 7,
+        "logo": "/uploads/Metabase_logo.svg",
+        "link": "https://www.metabase.com",
+        "alt": "Metabase"
+      },
+      {
+        "id": 8,
+        "logo": "/uploads/BBC_logo.svg",
+        "link": "https://www.bbc.com",
+        "alt": "BBC"
+      },
+      {
+        "id": 9,
+        "logo": "/uploads/Google_logo.svg",
+        "link": "https://www.google.com",
+        "alt": "Google"
+      },
+      {
+        "id": 10,
+        "logo": "/uploads/Amazon_logo.svg",
+        "link": "https://www.amazon.com",
+        "alt": "Amazon"
+      },
+      {
+        "id": 11,
+        "logo": "/uploads/Metabase_logo.svg",
+        "link": "https://www.metabase.com",
+        "alt": "Metabase"
+      },
+      {
+        "id": 12,
+        "logo": "/uploads/BBC_logo.svg",
+        "link": "https://www.bbc.com",
+        "alt": "BBC"
+      },
+      {
+        "id": 13,
+        "logo": "/uploads/Google_logo.svg",
+        "link": "https://www.google.com",
+        "alt": "Google"
+      },
+      {
+        "id": 14,
+        "logo": "/uploads/Amazon_logo.svg",
+        "link": "https://www.amazon.com",
+        "alt": "Amazon"
+      },
+      {
+        "id": 15,
+        "logo": "/uploads/Metabase_logo.svg",
+        "link": "https://www.metabase.com",
+        "alt": "Metabase"
+      },
+      {
+        "id": 16,
+        "logo": "/uploads/BBC_logo.svg",
+        "link": "https://www.bbc.com",
+        "alt": "BBC"
+      },
+      {
+        "id": 17,
+        "logo": "/uploads/Google_logo.svg",
+        "link": "https://www.google.com",
+        "alt": "Google"
+      },
+      {
+        "id": 18,
+        "logo": "/uploads/Amazon_logo.svg",
+        "link": "https://www.amazon.com",
+        "alt": "Amazon"
+      },
+      {
+        "id": 19,
+        "logo": "/uploads/Metabase_logo.svg",
+        "link": "https://www.metabase.com",
+        "alt": "Metabase"
+      },
+      {
+        "id": 20,
+        "logo": "/uploads/BBC_logo.svg",
+        "link": "https://www.bbc.com",
+        "alt": "BBC"
+      }
+    ]
+  },
+  {
+    "type": "faq",
+    "title": "Найчастіші питання",
+    "items": [
+      {
+        "id": 1,
+        "question": "Які речі потрібні для гри?",
+        "answer": "Для гри потрібно мати захисне спорядження, та ігрову зброю."
+      },
+      {
+        "id": 2,
+        "question": "Зі скількох років можна зіграти в страйкбол в Києві?",
+        "answer": "З 18 років, або з 16 років з дозволу та під доглядом батьків."
+      },
+      {
+        "id": 3,
+        "question": "Чи будуть синці від потрапляння кульок?",
+        "answer": "Так, будуть синці від потрапляння кульок."
+      },
+      {
+        "id": 4,
+        "question": "Чи можна грати в страйкбол без захисного спорядження?",
+        "answer": "Ні, без захисного спорядження грати не можна."
+      },
+      {
+        "id": 5,
+        "question": "Чи можна грати в страйкбол без ігрової зброї?",
+        "answer": "Ні, без ігрової зброї грати не можна."
+      },
+      {
+        "id": 6,
+        "question": "Чи можна грати в страйкбол без ігрової піротехніки?",
+        "answer": "Ні, без ігрової піротехніки грати не можна."
+      }
+    ]
+  },
+  {
+    "type": "banners",
+    "items": [
+      {
+        "id": 1,
+        "title": "Banner 1",
+        "description": "description of the first event",
+        "image": "https://ba0yeiz7pjouyrby.public.blob.vercel-storage.com/main-banner.png",
+        "link": "/catalog/firstevent",
+        "isActive": true
+      },
+      {
+        "id": 2,
+        "title": "Banner 2",
+        "description": "description of the second event",
+        "image": "https://ba0yeiz7pjouyrby.public.blob.vercel-storage.com/main-banner.png",
+        "link": "/catalog/secondevent",
+        "isActive": true
+      },
+      {
+        "id": 3,
+        "title": "Banner 3",
+        "description": "description of the third event",
+        "image": "https://ba0yeiz7pjouyrby.public.blob.vercel-storage.com/main-banner.png",
+        "link": "/catalog/thirdevent",
+        "isActive": true
+      },
+      {
+        "id": 4,
+        "title": "Banner 4",
+        "description": "description of the third event",
+        "image": "https://ba0yeiz7pjouyrby.public.blob.vercel-storage.com/main-banner.png",
+        "link": "/catalog/thirdevent",
+        "isActive": true
+      }
+    ]
+  }
+]
