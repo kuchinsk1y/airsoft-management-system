@@ -1,318 +1,277 @@
-# StrikeShop
+# Airsoft Management System
 
-Monorepo проект с тремя приложениями для разработки:
+[![Production Site](https://img.shields.io/badge/production-live-brightgreen)](https://www.strikeshopaction.org.ua/)
+[![Admin Panel](https://img.shields.io/badge/admin-live-blue)](https://strike-shop-admin.vercel.app/)
 
-- **API** - NestJS backend (порт 3101)
-- **Web** - Next.js веб-приложение (порт 3100)
-- **Admin** - Next.js админ-панель (порт 3200)
+---
 
-## 🚀 Пошаговая инструкция по запуску
+## Project Overview
 
-> **Примечание:** Если у вас уже есть локальный репозиторий, переходите сразу к [Шагу 1: Установка зависимостей](#шаг-1-установка-зависимостей)
+Airsoft Management System is a modern SaaS platform for managing airsoft clubs, events, teams, and players. The system provides a robust backend, a public-facing web application, and a powerful admin panel. It supports event management, team and player registration, payments, news, gallery, advanced rating/leaderboard systems, and more.
 
-### Клонирование репозитория
+---
 
-Клонируйте репозиторий с веткой `dev`:
+## Live Links
 
-```bash
-git clone -b dev https://github.com/strikeshopmanager/strike-shop.git
-cd StrikeShop
-```
+- **Production Site:** [strikeshopaction.org.ua](https://www.strikeshopaction.org.ua/)
+- **Admin Panel:** [strike-shop-admin.vercel.app](https://strike-shop-admin.vercel.app/)
 
-### Шаг 1: Установка зависимостей
+---
 
-Установите все зависимости для всех проектов:
+## Tech Stack
 
-```bash
-npm install
-```
+- **Frontend:** Next.js, React, TailwindCSS
+- **Admin Panel:** Next.js, React, TanStack Query, Chart.js, TinyMCE
+- **Backend:** NestJS, TypeScript, Prisma ORM
+- **Database:** PostgreSQL (main), MongoDB (auxiliary)
+- **DevOps:** Docker Compose, Vercel, Prisma Migrations
+- **Other:** Zod, Zustand, ESLint, Prettier, SendGrid, REST API
 
-Это установит зависимости для:
+---
 
-- Корневого проекта (concurrently, prisma, typescript)
-- apps/api (NestJS, Prisma, и т.д.)
-- apps/web (Next.js, React, и т.д.)
-- apps/admin (Next.js, React, и т.д.)
+## Features
 
-### Шаг 2: Настройка переменных окружения
+- Event management (games, tournaments, etc.)
+- Team & player management (registration, profiles, statistics, rosters)
+- Advanced rating system (player, team, organizer leaderboards)
+- Online registration (individuals and teams)
+- Payments (integration-ready)
+- News & gallery (content management)
+- Admin panel (user, event, content, and rating management)
+- Notifications (email, SMS-ready)
+- RESTful API for all core features
+- Responsive, mobile-friendly UI/UX
 
-#### 2.1. API (apps/api)
+---
 
-Создайте файл `.env` в папке `apps/api`:
+## Monorepo Structure
 
-```bash
-# Windows PowerShell
-Copy-Item apps\api\env.example apps\api\.env
+- `apps/web` — Public web application (Next.js)
+- `apps/admin` — Admin dashboard (Next.js)
+- `apps/api` — Backend API (NestJS, Prisma)
+- `config/` — Shared configuration
+- `docker-compose.yml` — Local DBs (Postgres, Mongo)
 
-# Linux/Mac
-cp apps/api/env.example apps/api/.env
-```
+---
 
-Все необходимые значения уже настроены в `env.example` и являются общими для команды.
+## Quick Start
 
-#### 2.2. Web (apps/web)
-
-Создайте файл `.env` в папке `apps/web`:
-
-```bash
-# Windows PowerShell
-Copy-Item apps\web\env.example apps\web\.env
-
-# Linux/Mac
-cp apps/web/env.example apps/web/.env
-```
-
-Все необходимые значения уже настроены в `env.example`.
-
-#### 2.3. Admin (apps/admin)
-
-Создайте файл `.env` в папке `apps/admin`:
-
-```bash
-# Windows PowerShell
-Copy-Item apps\admin\env.example apps\admin\.env
-
-# Linux/Mac
-cp apps/admin/env.example apps/admin/.env
-```
-
-Все необходимые значения уже настроены в `env.example`.
-
-### Шаг 3: Запуск проекта
-
-Просто запустите:
-
-```bash
-npm run dev
-```
-
-**Что произойдет автоматически:**
-
-1. ✅ Запустятся базы данных (PostgreSQL и MongoDB) через Docker Compose
-2. ✅ Применятся миграции Prisma
-3. ✅ Сгенерируется Prisma Client
-4. ✅ Заполнится база данных тестовыми данными (города, продукты, события, админ)
-5. ✅ Запустятся все три приложения:
-   - API на `http://localhost:3101`
-   - Web на `http://localhost:3100`
-   - Admin на `http://localhost:3200`
-
-### Шаг 4: Проверка работы
-
-1. **API Health Check:**
-   - Откройте: `http://localhost:3101/health`
-   - Должен вернуть статус API
-
-2. **Web приложение:**
-   - Откройте: `http://localhost:3100`
-   - Должна открыться главная страница
-
-3. **Admin панель:**
-   - Откройте: `http://localhost:3200`
-   - Должна открыться админ-панель
-
-## 🔧 Полезные команды
-
-### Запуск отдельных проектов
-
-Если нужно запустить только один проект, есть два способа:
-
-#### Способ 1: Из корня проекта (через workspace)
-
-**API:**
-
-```bash
-npm run dev --workspace=api
-```
-
-**Web:**
-
-```bash
-npm run dev --workspace=web
-```
-
-**Admin:**
-
-```bash
-npm run dev --workspace=admin
-```
-
-#### Способ 2: Из папки проекта
-
-**API:**
-
-```bash
-cd apps/api
-npm run dev
-```
-
-**Web:**
-
-```bash
-cd apps/web
-npm run dev
-```
-
-**Admin:**
-
-```bash
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/kuchinsk1y/airsoft-management-system.git
+   cd airsoft-management-system
+   ```
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+3. **Configure environment variables**
+   ```bash
+   cp apps/api/env.example apps/api/.env
+   cp apps/web/env.example apps/web/.env
+   cp apps/admin/env.example apps/admin/.env
+   ```
+4. **Start local databases**
+   ```bash
 cd apps/admin
-npm run dev
-```
 
-**Важно:** При запуске отдельных проектов убедитесь, что базы данных запущены:
+   npx prisma studio --workspace=api
 
-```bash
-# Запуск в фоновом режиме (не блокирует терминал)
-docker-compose up -d
+   # StrikeShop: Modern E-commerce, Marketplace & Event Platform
 
-# Или запуск с выводом логов (блокирует терминал)
-docker-compose up
-```
+   <p align="center">
+     <a href="https://www.strikeshopaction.org.ua/" target="_blank"><img src="https://img.shields.io/badge/production-live-brightgreen" alt="Production Site" /></a>
+     <a href="https://strike-shop-admin.vercel.app/" target="_blank"><img src="https://img.shields.io/badge/admin-live-blue" alt="Admin Panel" /></a>
+   </p>
 
-### Работа с базой данных
+   ---
 
-```bash
-# Создать новую миграцию и применить её
-npm run prisma:migrate:dev --workspace=api -- --name migration_name
+   ## Executive Summary
 
-# Применить существующие миграции к базе данных
-npm run prisma:migrate:deploy --workspace=api
+   StrikeShop is a scalable, production-ready monorepo platform for e-commerce, event management, and user communities. It powers a real-world airsoft marketplace and event ecosystem, but is architected to be adaptable for any marketplace, SaaS, or community-driven scenario. The platform features a modular backend, a modern public web app, and a powerful admin dashboard.
 
-# Сгенерировать Prisma Client
-npm run prisma:generate --workspace=api
 
-# Открыть Prisma Studio (GUI для БД)
-npx prisma studio --workspace=api
+   ---
 
-# Заполнить базу данных тестовыми данными
-npm run setup:db --workspace=api
-```
+   ## Table of Contents
 
-### Docker команды
+   1. [Executive Summary](#executive-summary)
+   2. [Live Demo](#live-demo)
+   3. [Monorepo Architecture](#monorepo-architecture)
+   4. [Technology Stack](#technology-stack)
+   5. [Key Features](#key-features)
+   6. [Application Modules](#application-modules)
+   7. [Getting Started](#getting-started)
+   8. [Deployment](#deployment)
+   9. [Database & Migrations](#database--migrations)
+   10. [Scripts & Dev Experience](#scripts--dev-experience)
+   11. [Documentation](#documentation)
+   12. [Demo Credentials](#demo-credentials)
+   13. [Security Notice](#security-notice)
+   14. [License](#license)
 
-```bash
-# Запустить базы данных в фоновом режиме
-docker-compose up -d
+   ---
 
-# Запустить базы данных с выводом логов
-docker-compose up
+   ## Monorepo Architecture
 
-# Остановить базы данных
-docker-compose down
+   The repository is organized as a monorepo using npm workspaces, containing three main applications:
 
-# Пересоздать базы данных (удалит все данные!)
-docker-compose down -v
-docker-compose up -d
+   - **API** (`apps/api`): TypeScript, NestJS, Prisma ORM, PostgreSQL/MongoDB. Modular, scalable backend with RESTful API, authentication, ACL, business logic, and integrations (email, SMS, payments).
+   - **Web** (`apps/web`): Next.js, React, Tailwind CSS. Public-facing storefront, user registration, product catalog, orders, ratings, and personal accounts.
+   - **Admin** (`apps/admin`): Next.js, React, TanStack Query, Chart.js, TinyMCE. Advanced admin dashboard for content, user, event, and rating management.
+   - **Shared Config**: Centralized configuration and scripts for consistency and DRY principles.
+   - **Infrastructure**: Docker Compose for local development, Vercel for frontend deployment, Prisma for DB migrations.
 
-# Посмотреть логи
-docker-compose logs postgres
-docker-compose logs mongo
+   ---
 
-# Проверить статус контейнеров
-docker-compose ps
-```
+   ## Technology Stack
 
-### Сборка проектов
+   - **Frontend:** Next.js, React 19, Tailwind CSS, Zustand, Zod, Radix UI, Chart.js, TinyMCE
+   - **Backend:** NestJS 11, TypeScript, Prisma ORM, PostgreSQL, MongoDB, JWT, SendGrid
+   - **DevOps:** Docker Compose, Vercel, Prisma Migrations, ESLint, Prettier
+   - **Other:** REST API, class-validator, TanStack Query, Papaparse, Framer Motion
 
-```bash
-# Собрать все проекты
-npm run build
+   ---
 
-# Собрать конкретный проект
-npm run build --workspace=api
-npm run build --workspace=web
-npm run build --workspace=admin
-```
+   ## Key Features
 
-## 🔑 Учетные данные по умолчанию
+   - Event & Tournament Management
+   - E-commerce: Product catalog, orders, payments (integration-ready)
+   - Advanced Rating System: Player, team, and organizer leaderboards
+   - User & Team Management: Registration, profiles, statistics, rosters
+   - Content Management: News, gallery, rich content editing (TinyMCE)
+   - Admin Panel: Full CRUD for users, events, products, ratings, and more
+   - Notifications: Email (SendGrid), SMS-ready
+   - Authentication & ACL: JWT, role-based access, multi-level permissions
+   - Responsive UI/UX: Mobile-first, accessible, modern design
+   - RESTful API: Well-documented, modular endpoints
+   - Dev Experience: Monorepo, strict linting, type safety, modular codebase
 
-После запуска `npm run dev` автоматически создается администратор:
+   ---
 
-- **Email:** `admin@example.com`
-- **Password:** `Passw0rd!`
-- **Nickname:** `admin`
+   ## Application Modules
 
-## ⚠️ Решение проблем
+   ### API (NestJS, Prisma, PostgreSQL/MongoDB)
+   - Modular structure: each business domain (users, teams, events, products, orders, ratings, comments, notifications, payments, etc.) is a separate module with its own controller, service, DTOs, and interfaces.
+   - Authentication: JWT, OAuth (Google, Facebook), role-based access, ACL guards, custom decorators.
+   - Integrations: Email (SendGrid), SMS (multiple providers), payments (LiqPay), file storage, Prisma ORM, Swagger API docs.
+   - Database: Prisma schema with rich enums, relations, migrations, and seed scripts for demo and production data.
+   - Security: API key guard, password strength validation, exception filters, environment-based config.
 
-### База данных не подключается
+   ### Web (Next.js, React, Tailwind CSS)
+   - Modern, responsive storefront and user portal.
+   - Pages: events, products, checkout, registration, login, profile, teams, ratings, news, gallery, legal, FAQ, and more.
+   - State management: Zustand, React Context.
+   - Forms: React Hook Form, Zod validation.
+   - SEO: Dynamic metadata, sitemap, robots, Open Graph, structured data.
+   - UI: Custom component library, Radix UI, Tailwind CSS, icons, modals, toasts.
 
-1. Проверьте, что Docker запущен:
+   ### Admin (Next.js, React, TanStack Query, Chart.js, TinyMCE)
+   - Advanced dashboard for managing all business entities: users, teams, events, products, orders, ratings, news, gallery, workshop items, etc.
+   - Rich content editing: TinyMCE integration for WYSIWYG editing.
+   - Data visualization: Chart.js, custom dashboards, statistics, leaderboards.
+   - Import/export: CSV import/export for bulk data management.
+   - Modular, maintainable codebase with clear separation of concerns.
+
+   ---
+
+   ## Getting Started
+
+   1. **Clone the repository**
+      ```bash
+      git clone https://github.com/kuchinsk1y/airsoft-management-system.git
+      cd airsoft-management-system
+      ```
+   2. **Install dependencies**
+      ```bash
+      npm install
+      ```
+   3. **Configure environment variables**
+      ```bash
+      cp apps/api/env.example apps/api/.env
+      cp apps/web/env.example apps/web/.env
+      cp apps/admin/env.example apps/admin/.env
+      ```
+   4. **Start local databases**
+      ```bash
+      docker-compose up -d
+      ```
+   5. **Run the platform**
+      ```bash
+      npm run dev
+      ```
+      - API: http://localhost:3101
+      - Web: http://localhost:3100
+      - Admin: http://localhost:3200
+
+   ---
+
+   ## Deployment
+
+   - **Web & Admin:** Deployed to Vercel (see links above)
+   - **API:** Deployable to any Node.js-compatible host (Docker, Vercel, AWS, etc.)
+   - **Databases:** PostgreSQL & MongoDB (cloud or self-hosted)
+
+   ---
+
+   ## Database & Migrations
+
+   Prisma ORM is used for database schema and migrations. See `prisma/schema.prisma` and `apps/api/prisma/migrations` for details.
+
+   Common commands:
 
    ```bash
-   docker ps
+   # Create and apply a new migration
+   npm run prisma:migrate:dev --workspace=api -- --name migration_name
+
+   # Apply existing migrations
+   npm run prisma:migrate:deploy --workspace=api
+
+   # Generate Prisma Client
+   npm run prisma:generate --workspace=api
+
+   # Open Prisma Studio (DB GUI)
+
+
+   # Seed database with test data
+   npm run setup:db --workspace=api
    ```
 
-2. Проверьте, что контейнеры работают:
+   ---
 
-   ```bash
-   docker-compose ps
-   ```
+   ## Scripts & Dev Experience
 
-3. Пересоздайте базы данных:
+   - **Monorepo scripts:** Unified dev, build, lint, and test commands
+   - **Custom seeds:** Easily populate DB with demo or production data
+   - **Strict linting & formatting:** ESLint, Prettier, TypeScript everywhere
+   - **CI/CD ready:** Vercel config, Docker Compose, environment separation
 
-   ```bash
-   docker-compose down -v
-   docker-compose up -d
-   ```
+   ---
 
-4. Попробуйте запустить проект снова:
-   ```bash
-   npm run dev
-   ```
+   ## Documentation
 
-### Ошибки при миграциях
+   - **Rating System:** See `RATING_SYSTEM_EXPLANATION.md`, `RATING_SYSTEM_IMPLEMENTATION.md`, `RATING_SYSTEM_PROPOSAL.md`
+   - **API Docs:** Swagger available in API app (see `/apps/api`)
+   - **Environment:** Example `.env` files in each app
 
-1. Убедитесь, что база данных запущена и доступна:
+   ---
 
-   ```bash
-   docker-compose up -d
-   ```
-
-2. Проверьте `DATABASE_URL` в `apps/api/.env`:
+   ## Demo Credentials
 
    ```
-   DATABASE_URL="postgresql://postgres:postgres@localhost:5432/strikeshop?schema=public"
+   Email:    admin@example.com
+   Password: Passw0rd!
    ```
 
-3. Попробуйте пересоздать миграции:
-   ```bash
-   npm run prisma:migrate:dev --workspace=api
-   ```
+   ---
 
-### Порт занят
+   ## Security Notice
 
-Если порт занят, освободите его:
+   **Never commit or publish real secrets, API keys, or JWT secrets.** Always use placeholder values in example files and keep production secrets in secure storage (e.g., environment variables, secret managers).
 
-1. Найдите процесс, использующий порт:
+   ---
 
-   ```bash
-   # Windows
-   netstat -ano | findstr :3101
-   netstat -ano | findstr :3100
-   netstat -ano | findstr :3200
+   ## License
 
-   # Linux/Mac
-   lsof -i :3101
-   lsof -i :3100
-   lsof -i :3200
-   ```
+   This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
-2. Остановите процесс или освободите порт другим способом
-
-**Важно:** Не меняйте порты в конфигурации - используйте стандартные порты проекта
-
-### Docker контейнеры не запускаются
-
-1. Проверьте, что Docker Desktop запущен
-2. Проверьте, что порты 5432 и 27017 свободны
-3. Остановите другие контейнеры, использующие эти порты:
-   ```bash
-   docker ps
-   docker stop <container_id>
-   ```
-
-## 📚 Дополнительная информация
-
-- **Prisma Studio:** `npx prisma studio --workspace=api` - GUI для работы с БД
-- **Docker:** Используется для локальной разработки (PostgreSQL и MongoDB)
